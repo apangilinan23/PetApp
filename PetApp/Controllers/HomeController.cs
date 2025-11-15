@@ -34,6 +34,36 @@ namespace PetApp.Controllers
             return View("~/Views/Home/Index.cshtml", petViewModel);
         }
 
+        // GET: /Home/Edit/5
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var pet = _petService.GetPetById(id);
+            if (pet == null) return NotFound();
+            return View("~/Views/Home/Edit.cshtml", pet);
+        }
+
+        // POST: /Home/Edit
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Pet pet)
+        {
+            if (!ModelState.IsValid)
+                return View("~/Views/Home/Edit.cshtml", pet);
+
+            try
+            {
+                _petService.UpdatePet(pet);
+                //TempData["SuccessMessage"] = "Pet updated successfully.";
+                return RedirectToAction("PetList");
+            }
+            catch
+            {
+                ModelState.AddModelError(string.Empty, "Unable to save changes. Try again.");
+                return View("~/Views/Home/Edit.cshtml", pet);
+            }
+        }
+
         public IActionResult Privacy()
         {
             return View();

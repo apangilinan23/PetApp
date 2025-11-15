@@ -1,9 +1,12 @@
-﻿using PetApp.ViewModel;
+﻿using System.Collections.Generic;
+using PetApp.ViewModel;
 
 namespace PetApp.Services.Pet
 {
     public interface IPetService
     {
-        public List<Models.Pet> GetPets();
+        List<Models.Pet> GetPets();
+        Models.Pet? GetPetById(int id);
+        void UpdatePet(Models.Pet pet);
     }
 }

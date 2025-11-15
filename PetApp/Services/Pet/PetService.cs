@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using PetApp.Data;
 using PetApp.ViewModel;
 
@@ -15,9 +18,25 @@ namespace PetApp.Services.Pet
 
         public List<Models.Pet> GetPets()
         {
-            return _context.Pet.AsNoTracking()
-              .OrderBy(p => p.Name)
-              .ToList();
+            return _context.Pet
+                .AsNoTracking()
+                .OrderBy(p => p.Name)
+                .ToList();
+        }
+
+        public Models.Pet? GetPetById(int id)
+        {
+            // Use Find to get a tracked entity for editing.
+            return _context.Pet.Find(id);
+        }
+
+        public void UpdatePet(Models.Pet pet)
+        {
+            if (pet is null) throw new ArgumentNullException(nameof(pet));
+
+            // Attach/update and persist changes.
+            _context.Pet.Update(pet);
+            _context.SaveChanges();
         }
     }
 }

@@ -47,7 +47,7 @@
                         @foreach (var pet in pets)
                         {
                             var colorValue = string.IsNullOrWhiteSpace(pet.Color) ? "#ccc" : pet.Color;
-                            <tr>
+                            <tr role="button" tabindex="0" onclick="location.href='@Url.Action("Edit","Home", new { id = pet.Id })'">
                                 <td class="align-middle">@index</td>
                                 <td class="align-middle">@pet.Name</td>
                                 <td class="align-middle">@pet.Breed</td>
