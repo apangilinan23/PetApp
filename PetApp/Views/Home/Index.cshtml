@@ -1,0 +1,87 @@
+﻿@using PetApp.ViewModel
+@model PetViewModel
+
+@{
+    ViewData["Title"] = "Pet List";
+    var pets = Model?.Pets ?? new List<PetApp.Models.Pet>();
+}
+
+<style>
+    /* show hand cursor for table rows in the pet table */
+    .pet-table tbody tr { cursor: pointer; }
+    .pet-table tbody tr td { cursor: pointer; }
+</style>
+
+<div class="mb-4 d-flex align-items-center justify-content-between">
+    <h1 class="h3 mb-0">Pet List</h1>
+    <small class="text-muted">Showing @pets.Count pet(s)</small>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body p-0">
+        @if (!pets.Any())
+        {
+            <div class="p-4 text-center text-muted">
+                <i class="bi bi-paw fs-3"></i>
+                <div class="mt-2">No pets available.</div>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-striped table-hover mb-0 pet-table">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width:48px">#</th>
+                            <th>Name</th>
+                            <th>Breed</th>
+                            <th style="width:90px">Age</th>
+                            <th style="width:110px">Color</th>
+                            <th style="width:120px" class="text-center">Ready to adopt</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            var index = 1;
+                        }
+                        @foreach (var pet in pets)
+                        {
+                            var colorValue = string.IsNullOrWhiteSpace(pet.Color) ? "#ccc" : pet.Color;
+                            <tr>
+                                <td class="align-middle">@index</td>
+                                <td class="align-middle">@pet.Name</td>
+                                <td class="align-middle">@pet.Breed</td>
+                                <td class="align-middle">@pet.Age</td>
+                                <td class="align-middle">
+                                    <div class="d-flex align-items-center">
+                                        <div class="me-2" 
+                                             style="width:18px;height:14px;border-radius:3px;background:@colorValue;border:1px solid rgba(0,0,0,0.08);" 
+                                             title="@pet.Color">
+                                        </div>
+                                        <small class="text-muted">@(!string.IsNullOrWhiteSpace(pet.Color) ? pet.Color : "Unknown")</small>
+                                    </div>
+                                </td>
+                                <td class="align-middle text-center">
+                                    @if (pet.Ready)
+                                    {
+                                        <span class="badge bg-success">Ready</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">Not ready</span>
+                                    }
+                                </td>
+                            </tr>
+                            index++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @* Optionally include Bootstrap icons if you want the paw icon (bi bi-paw).
+       Add the Bootstrap Icons CDN to _Layout.cshtml or remove the <i class="bi bi-paw"> element above. *@
+}

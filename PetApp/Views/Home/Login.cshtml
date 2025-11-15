@@ -1,0 +1,55 @@
+@model PetApp.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = "Sign in";
+}
+
+<div class="d-flex align-items-center justify-content-center" style="min-height:70vh;">
+    <div class="card shadow-sm w-100" style="max-width:420px;">
+        <div class="card-body">
+            <h3 class="card-title mb-3 text-center">Sign in to PetApp</h3>
+
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success" role="alert">@TempData["SuccessMessage"]</div>
+            }
+
+            <form asp-action="Login" method="post" novalidate>
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <input type="hidden" name="returnUrl" value="@(ViewData["ReturnUrl"] ?? string.Empty)" />
+
+                <div class="mb-3">
+                    <label asp-for="Username" class="form-label"></label>
+                    <input asp-for="Username" class="form-control" placeholder="you@example.com or username" />
+                    <span asp-validation-for="Username" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3 form-check">
+                    <input asp-for="RememberMe" class="form-check-input" />
+                    <label asp-for="RememberMe" class="form-check-label"></label>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary btn-lg">Sign in</button>
+                </div>
+
+                <div class="text-center mt-3">
+                    <a asp-controller="Home" asp-action="Index">Back to home</a>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer text-center text-muted small">
+            Need an account? Contact your administrator.
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
