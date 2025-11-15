@@ -10,7 +10,7 @@ namespace PetApp.Controllers
     public class HomeController : Controller
     {
         private IPetService _petService;
-
+        //url/controller/action
         public HomeController(IPetService petService)
         {
             _petService = petService;
@@ -90,3 +90,9 @@ namespace PetApp.Controllers
         }
     }
 }
+
+
+//model-view-controller pattern
+//model=represent the tables in your database
+//view=the user interface that displays data and captures user input
+//controller=handles user requests, interacts with models, and selects views to render the final output
