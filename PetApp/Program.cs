@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using PetApp.Data;
 using PetApp.Services;
-using PetApp.Services.Pet; // Add this line
+using PetApp.Services.Pet;
+using PetApp.Services.User; // Add this line
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,7 @@ builder.Services.AddDbContext<PetAppContext>(options =>
 
 // Register application services
 builder.Services.AddScoped<IPetService, PetService>(); // Add this line
+builder.Services.AddScoped<IUserService, UserService>(); // Add this line
 
 var app = builder.Build();
 

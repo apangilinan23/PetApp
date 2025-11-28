@@ -4,16 +4,19 @@ using Microsoft.AspNetCore.Authentication;
 using PetApp.Models;
 using PetApp.Services.Pet;
 using PetApp.ViewModel;
+using PetApp.Services.User;
 
 namespace PetApp.Controllers
 {
     public class HomeController : Controller
     {
         private IPetService _petService;
+        private IUserService _userService;
         //url/controller/action
-        public HomeController(IPetService petService)
+        public HomeController(IPetService petService, IUserService userService)
         {
             _petService = petService;
+            _userService = userService;
         }
 
         public IActionResult Index(string? returnUrl = null)
@@ -84,8 +87,9 @@ namespace PetApp.Controllers
             if (!ModelState.IsValid)
                 return View("~/Views/Home/Login.cshtml", model);
 
-            // Replace this with your real authentication logic (DB lookup, Identity, etc.)
-            if (model.Username == "admin" && model.Password == "admin123")
+            var loginResult = _userService.ValidateUser(model.Username, model.Password);
+
+            if (loginResult)
             {
                 if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                     return Redirect(returnUrl);
